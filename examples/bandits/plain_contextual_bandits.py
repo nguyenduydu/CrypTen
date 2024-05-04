@@ -9,6 +9,7 @@ import random
 import time
 
 import torch
+from asset_minimisation_infra.dead_code_cleanup.dynamic_dispatch import dynamic_dispatch
 
 
 def online_learner(
@@ -81,7 +82,7 @@ def online_learner(
 
         # update linear least squares accumulators (using Sherman–Morrison formula):
         A_inv_context = A_inv[selected_arm, :, :].mv(context)
-        numerator = torch.ger(A_inv_context, A_inv_context)
+        numerator = torch.outer(A_inv_context, A_inv_context)
         denominator = A_inv_context.dot(context).add(1.0)
         A_inv[selected_arm, :, :].sub_(numerator.div_(denominator))
         b[selected_arm, :].add_(context.mul(reward))
@@ -105,6 +106,7 @@ def online_learner(
         monitor_func(idx, None, None, None, finished=True)
 
 
+@dynamic_dispatch
 def epsilon_greedy(
     sampler,
     epsilon=0.0,
@@ -145,6 +147,7 @@ def epsilon_greedy(
     )
 
 
+@dynamic_dispatch
 def linucb(
     sampler,
     epsilon=0.1,

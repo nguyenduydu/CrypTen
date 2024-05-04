@@ -5,7 +5,6 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import abc
 import functools
 
 import numpy as np
@@ -49,7 +48,7 @@ def chebyshev_series(func, width, terms):
     n_range = torch.arange(start=0, end=terms).float()
     x = width * torch.cos((n_range + 0.5) * np.pi / terms)
     y = func(x)
-    cos_term = torch.cos(torch.ger(n_range, n_range + 0.5) * np.pi / terms)
+    cos_term = torch.cos(torch.outer(n_range, n_range + 0.5) * np.pi / terms)
     coeffs = (2 / terms) * torch.sum(y * cos_term, axis=1)
     return coeffs
 

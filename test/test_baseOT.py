@@ -7,12 +7,12 @@
 
 import unittest
 
-import crypten.mpc.primitives.ot.baseOT as baseOT
+import deeplearning.projects.crypten.crypten.mpc.primitives.ot.baseOT as baseOT
 from test.multiprocess_test_case import MultiProcessTestCase
 
 
 class TestObliviousTransfer(MultiProcessTestCase):
-    def test_BaseOT(self):
+    def test_BaseOT(self) -> None:
         ot = baseOT.BaseOT((self.rank + 1) % self.world_size)
         if self.rank == 0:
             # play the role of sender first
